@@ -1,4 +1,4 @@
-# My Whisper.cpp STT Realted Utilities
+# My Whisper.cpp STT Related Utilities
 
 I would like to use whisper.cpp as the speech-to-text engine.
 Usually I mix Chinese and English. Therefore, the default startup options
@@ -11,6 +11,8 @@ In this project, I collect my experimental scripts and utility programs.
 ### Without GPU, With BLAS
 
 ```
+git clone https://github.com/ggml-org/whisper.cpp.git
+cd whisper.cpp
 cmake -B build -DGGML_BLAS=1
 cmake --build build -j --config Release
 ```
@@ -32,7 +34,8 @@ cd models
 * `scripts/` contains shell scripts
   * `whispercpp-start.sh` starts the `whisper-server` with some default options
   * `transcribe.sh` uses `curl` to send the WAV file to the server and gets the JSON response
-  * `normalize_wav.sh` uses `ffmpeg` to convert the input audio file to the WAV format that can be consumed by `whisper-server`
+  * `normalize_wav.sh` uses `ffmpeg` to convert the input audio file to the WAV format that can be consumed by `whisper-server` (16kHz Mono S16LE)
+  * `record_wav.sh` uses `arecord` to capture audio from the default device and save to the WAV file
 * `systemd/` contains the service files
   * `whisper-server.service` starts the whisper.cpp service
 
