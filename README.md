@@ -40,4 +40,6 @@ Therefore, we need to manually convert the model to `q4_0` to get hardware suppo
   * `record_wav.sh` uses `arecord` to capture audio from the default device and save to the WAV file
 * `systemd/` contains the service files
   * `whisper-server.service` starts the whisper.cpp service
+  * `vad-stt.service` starts the `vad-stt` program to transcribe speech and inject via HID
+
 

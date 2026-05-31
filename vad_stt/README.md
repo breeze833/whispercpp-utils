@@ -41,3 +41,27 @@ If you would like to override the input and output, use environment variables:
   * `/tmp/hid-keyboard.sock`: the default unix socket name
   * socket name: the specific unix socket name
   * `-`: dump the results to the standard output
+
+## Experimental Results
+
+### `vad-stt`, `whisper-server`, and `hid-keyboard` on RPi4
+
+It seems that capturing audio (or reading WAV) and transcribing on the same RPi4 is too complicated.
+The RPi4 shows significant slowness on finising the job.
+Though it works, it is not practical.
+
+### `vad-stt` and `hid-keyboard` on RPi4, and `whisper-server` on PC
+
+By off-loading the whisper engine to PC, we can get acceptable performance.
+With my customized dietpi configuration, the link-local network is available.
+We can consider contact the PC-side whisper (but the IP address may vary each time).
+We can use OpenSSH to set up a remote forwarding (the RPi4 side IP is almost fixed `169.254.1.1`):
+
+At the PC side:
+```
+ssh -R 8080:localhost:8080 dietpi@169.254.1.1
+```
+
+The audio is recorded at RPi4, forwarded to PC to transcribe, and back to RPi4 to inject the results
+via the HID interface.
+
