@@ -1,6 +1,6 @@
 # My Whisper.cpp STT Related Utilities
 
-I would like to use whisper.cpp as the speech-to-text engine.
+I would like to use whisper.cpp as the speech-to-text engine on RPi4.
 Usually I mix Chinese and English. Therefore, the default startup options
 require special tweaks.
 
@@ -20,12 +20,14 @@ cmake --build build -j --config Release
 ## Download Models
 
 It requires at least the small model for resolving the mixture of Chinese and English properly.
-The VAD is the useful preprocessing model for reducing the actual processing size.
+The VAD is the useful preprocessing model (though may introduce overhead) for reducing the actual processing size.
+The RPi4 ARM NEON architecture is highly optimized for 4-bit mathematical lookups.
+Therefore, we need to manually convert the model to `q4_0` to get hardware support.
 
 ```
-cd models
-./download_ggml_model.sh large-v3-turbo-q8_0
-./download_vad_model.sh silero-v6.2.0
+./models/download_ggml_model.sh small
+./models/download_vad_model.sh silero-v6.2.0
+./build/bin/whisper-quantize ./models/ggml-small.bin ./models/ggml-small-q4_0.bin q4_0
 
 ```
 
