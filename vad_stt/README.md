@@ -44,7 +44,7 @@ If you would like to override the input and output, use environment variables:
 
 ## Experimental Results
 
-### `vad-stt`, `whisper-server`, and `hid-keyboard` on RP
+### `vad-stt`, `whisper-server`, and `hid-keyboard` on RPi4
 
 It seems that capturing audio (or reading WAV) and transcribing on the same RPi4 is too complicated.
 The RPi4 shows significant slowness on finising the job.
