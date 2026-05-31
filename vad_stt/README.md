@@ -37,14 +37,14 @@ If you would like to override the input and output, use environment variables:
   * `mic`: read PCM data from the microphone (the default)
   * file name: read WAV data from the file
   * `-`: read the WAV data from the stdandard input 
-* `STT_OUTPUT` for writing the null-terminated strings
+* `STT_OUTPUT` for writing the null-terminated strings (the format is for integrating with my [rpi-hid-keyboard](https://github.com/breeze833/rpi-hid-keyboard) project)
   * `/tmp/hid-keyboard.sock`: the default unix socket name
   * socket name: the specific unix socket name
   * `-`: dump the results to the standard output
 
 ## Experimental Results
 
-### `vad-stt`, `whisper-server`, and `hid-keyboard` on RPi4
+### `vad-stt`, `whisper-server`, and `hid-keyboard` on RP
 
 It seems that capturing audio (or reading WAV) and transcribing on the same RPi4 is too complicated.
 The RPi4 shows significant slowness on finising the job.
