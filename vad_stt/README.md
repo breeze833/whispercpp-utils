@@ -13,6 +13,8 @@ The output could be a unix socket or `stdout`.
 ## Build
 
 ```
+sudo apt update
+sudo apt install python3-dev portaudio19-dev
 python -m venv .venv
 .venv/bin/pip install --upgrade pip setuptools
 .venv/bin/pip install -r requirements.txt

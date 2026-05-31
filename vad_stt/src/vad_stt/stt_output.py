@@ -26,7 +26,7 @@ class STTOutputProcessor:
             try:
                 with open(wav_filename, 'rb') as f:
                     files = {'file': (os.path.basename(wav_filename), f, 'audio/wav')}
-                    response = requests.post(self.whisper_url, files=files, timeout=10)
+                    response = requests.post(self.whisper_url, files=files, timeout=30)
                 
                 if response.status_code == 200:
                     transcript = response.json().get("text", "").strip()
