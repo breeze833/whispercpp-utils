@@ -19,7 +19,7 @@ cmake -B build -DGGML_BLAS=1
 cmake --build build -j --config Release
 ```
 
-## Download Models
+### Download and Build Models
 
 It requires at least the small model for resolving the mixture of Chinese and English properly.
 The VAD is the useful preprocessing model (though may introduce overhead) for reducing the actual processing size.
@@ -33,7 +33,9 @@ Therefore, we need to manually convert the model to `q4_0` to get hardware suppo
 
 ```
 
-## Files
+----
+
+## Files in This Project
 
 * `scripts/` contains shell scripts
   * `whispercpp-start.sh` starts the `whisper-server` with some default options
