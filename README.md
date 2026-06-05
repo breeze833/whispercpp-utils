@@ -11,6 +11,8 @@ In this project, I collect my experimental scripts and utility programs.
 ### Without GPU, With BLAS
 
 ```
+sudo apt install build-essential make cmake pkgconf
+
 git clone https://github.com/ggml-org/whisper.cpp.git
 cd whisper.cpp
 cmake -B build -DGGML_BLAS=1
