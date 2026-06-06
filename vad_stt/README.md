@@ -23,6 +23,16 @@ python -m venv .venv
 
 ## Use
 
+### Configure the Audio Device
+
+To enable audio input in the user service, here are some configurations to do
+* An audio input device (e.g., USB microphone)
+* Configure to enable the audio device in Linux
+  * The device should support the exact 16kHz, mono, and S16_LE input format
+  * ALSA support automatic conversion if you enable it
+  * A sound server may be required to do the software conversion on-the-fly
+* Add user `dietpi` to group `audio`
+
 ### CLI
 
 Default behavior is to read input from microphone and send output to `/tmp/hid-keyboard.sock`.
