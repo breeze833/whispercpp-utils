@@ -54,11 +54,16 @@ If you would like to override the input and output, use environment variables:
 
 ## Experimental Results
 
-### `vad-stt`, `whisper-server`, and `hid-keyboard` on RPi4
+### `vad-stt`, `whisper-server`, and `hid-keyboard` on RPi4 with ReSpeaker 2-Mic
 
 It seems that capturing audio (or reading WAV) and transcribing on the same RPi4 is too complicated.
 The RPi4 shows significant slowness on finising the job.
 Though it works, it is not practical.
+
+### `vad-stt`, `whisper-server`, and `hid-keyboard` on RPi5 with USB sound adapter
+
+The RPi5 shows much better performance than RPi4.
+The run-time transcription speed is acceptable though it is still not real-time.
 
 ### `vad-stt` and `hid-keyboard` on RPi4, and `whisper-server` on PC
 
