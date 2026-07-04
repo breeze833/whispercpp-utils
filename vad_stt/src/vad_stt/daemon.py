@@ -1,3 +1,4 @@
+import sys
 import multiprocessing
 from .vad_input import WavVADInput, MicVADInput
 from .stt_output import StdoutOutput, SocketOutput

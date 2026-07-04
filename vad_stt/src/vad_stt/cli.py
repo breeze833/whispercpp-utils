@@ -21,7 +21,7 @@ def main():
     # Define clean exit signal behavior
     def shutdown_handler(signum, frame):
         print(f"\n[CLI] Caught intercept signal ({signal.Signals(signum).name}).")
-        pipeline.stop()
+        daemon.stop()
         sys.exit(0)
 
     # Register OS Hooks
