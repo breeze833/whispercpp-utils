@@ -5,9 +5,9 @@ import socket
 import requests
 
 class STTOutputProcessor:
-    def __init__(self, queue, whisper_url="http://127.0.0.1:8080/inference"):
+    def __init__(self, queue, whisper_url=None):
         self.queue = queue
-        self.whisper_url = whisper_url
+        self.whisper_url = whisper_url or os.environ.get("WHISPER_URL", "http://127.0.0.1:8080/inference")
 
     def emit_text(self, text):
         pass
@@ -41,7 +41,7 @@ class STTOutputProcessor:
                     pass
             
 class StdoutOutput(STTOutputProcessor):
-    def __init__(self, queue, whisper_url="http://127.0.0.1:8080/inference"):
+    def __init__(self, queue, whisper_url=None):
         super().__init__(queue, whisper_url)
         self.queue = queue
         
@@ -51,7 +51,7 @@ class StdoutOutput(STTOutputProcessor):
 
 
 class SocketOutput(STTOutputProcessor):
-    def __init__(self, queue, socket_path, whisper_url="http://127.0.0.1:8080/inference"):
+    def __init__(self, queue, socket_path, whisper_url=None):
         super().__init__(queue, whisper_url)
         self.queue = queue
         self.socket_path = socket_path
@@ -74,4 +74,3 @@ class SocketOutput(STTOutputProcessor):
             finally:
                 if self.sock:
                     self.sock.close()
-

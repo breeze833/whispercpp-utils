@@ -3,9 +3,9 @@ requires = ["setuptools>=61.0.0"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "vad_stt"
+name = "stream_stt"
 version = "1.0.0"
-description = "VAD audio pipeline parser for whisper-server HID injection"
+description = "Streaming audio pipeline parser for whisper-server HID injection"
 readme = "README.md"
 requires-python = ">=3.10"
 dependencies = [
@@ -15,7 +15,8 @@ dependencies = [
 ]
 
 [project.scripts]
-vad-stt = "vad_stt.cli:main"
+stream-stt = "stream_stt.cli:main"
+vad-stt = "stream_stt.cli:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]

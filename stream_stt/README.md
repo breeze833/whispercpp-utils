@@ -1,14 +1,15 @@
-# VAD STT Processor
+# Streaming STT Processor
 
-The STT program that uses low complexity VAD detection and transcribe with whisper.cpp (assume native VAD is disabled).
+The STT program that reads audio streams, chunks them (optionally using WebRTC VAD or fixed-duration chunks for Native/Server-side VAD), transcribes them using whisper.cpp, and sends the output.
+
 Its processing flow is:
 
-1. reads input speech stream
-2. creates fragments based on VAD 
-3. contacts `whisper-server` to transcribe each fragments
-4. sends the transcribed results to the output.
+1. Reads input speech stream (microphone, file, or standard input)
+2. Creates audio fragments (using local WebRTC VAD or fixed-duration intervals)
+3. Sends each fragment to `whisper-server` for transcription (which can use native Silero VAD)
+4. Sends the transcribed results to the output destination (socket or stdout).
 
-The input could be a WAV file or the microphone.
+The input could be a WAV file, standard input, or the microphone.
 The output could be a unix socket or `stdout`.
 
 ## Build
@@ -39,19 +40,24 @@ To enable audio input in the user service, here are some configurations to do
 Default behavior is to read input from microphone and send output to `/tmp/hid-keyboard.sock`.
 
 ```
-.venv/bin/vad-stt
+.venv/bin/stream-stt
 ```
 
-If you would like to override the input and output, use environment variables:
+If you would like to override the configuration, use environment variables:
 
-* `VAD_INPUT` for reading the audio data
+* `VAD_INPUT` (or `STREAM_INPUT`) for reading the audio data
   * `mic`: read PCM data from the microphone (the default)
   * file name: read WAV data from the file
-  * `-`: read the WAV data from the stdandard input 
-* `STT_OUTPUT` for writing the null-terminated strings (the format is for integrating with my [rpi-hid-keyboard](https://github.com/breeze833/rpi-hid-keyboard) project)
-  * `/tmp/hid-keyboard.sock`: the default unix socket name
+  * `-`: read the WAV data from the standard input 
+* `STT_OUTPUT` (or `STREAM_OUTPUT`) for writing the null-terminated strings (the format is for integrating with my [rpi-hid-keyboard](https://github.com/breeze833/rpi-hid-keyboard) project)
+  * `/tmp/hid_keyboard.sock`: the default unix socket name
   * socket name: the specific unix socket name
   * `-`: dump the results to the standard output
+* `STT_MODE` (or `VAD_MODE`) to toggle VAD chunking strategy
+  * `webrtc` (default): use client-side WebRTC VAD to isolate voice segments.
+  * `native`: bypass client WebRTC VAD and chunk audio at regular intervals, letting the `whisper-server`'s native Silero VAD handle speech segment detection.
+* `CHUNK_DURATION_S` (only applicable when `STT_MODE=native`):
+  * The duration in seconds of each audio chunk sent to the server. Defaults to `3.0`.
 
 ## Experimental Results
 

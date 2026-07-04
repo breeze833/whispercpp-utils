@@ -3,8 +3,8 @@ Description=VAD-STT service
 After=network.target
 
 [Service]
-WorkingDirectory=%h/src/whispercpp-utils/vad_stt
-ExecStart=/bin/bash -c '.venv/bin/vad-stt'
+WorkingDirectory=%h/src/whispercpp-utils/stream_stt
+ExecStart=/bin/bash -c '.venv/bin/stream-stt'
 Restart=always
 RestartSec=5
 

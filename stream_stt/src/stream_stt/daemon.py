@@ -1,17 +1,22 @@
 import sys
 import multiprocessing
-from .vad_input import WavVADInput, MicVADInput
+from .audio_input import WavInput, MicInput, WebRTCVADChunker, FixedIntervalChunker
 from .stt_output import StdoutOutput, SocketOutput
 
-def run_producer_process(input_target, shared_queue, stop_event):
+def run_producer_process(input_target, shared_queue, stop_event, stt_mode="webrtc", chunk_duration_s=3.0):
     """Instantiates and runs the audio producer purely inside the spawned process."""
     try:
-        if input_target.lower() == "mic":
-            producer_instance = MicVADInput(shared_queue)
+        # Instantiate the correct chunker based on STT_MODE
+        if stt_mode == "native":
+            chunker = FixedIntervalChunker(shared_queue, chunk_duration_s=chunk_duration_s)
         else:
-            producer_instance = WavVADInput(input_target, shared_queue)
+            chunker = WebRTCVADChunker(shared_queue)
+
+        if input_target.lower() == "mic":
+            producer_instance = MicInput(chunker)
+        else:
+            producer_instance = WavInput(input_target, chunker)
         
-        # This will execute cleanly since webrtcvad is born here
         producer_instance.run(stop_event)
     except Exception as e:
         print(f"[Child Producer Error] Crashed during initialization: {e}", file=sys.stderr)
@@ -28,9 +33,11 @@ def run_consumer_process(output_target, shared_queue, stop_event):
         print(f"[Child Consumer Error] Crashed during initialization: {e}", file=sys.stderr)
 
 class STTDaemon:
-    def __init__(self, input_target, output_target):
+    def __init__(self, input_target, output_target, stt_mode="webrtc", chunk_duration_s=3.0):
         self.input_target = input_target
         self.output_target = output_target
+        self.stt_mode = stt_mode
+        self.chunk_duration_s = chunk_duration_s
         
         # Shared IPC Queue across execution contexts
         self.shared_queue = multiprocessing.Queue()
@@ -43,7 +50,7 @@ class STTDaemon:
         # Build execution processes
         self.producer_process = multiprocessing.Process(
             target=run_producer_process,
-            args=(self.input_target, self.shared_queue, self.stop_event)
+            args=(self.input_target, self.shared_queue, self.stop_event, self.stt_mode, self.chunk_duration_s)
         )
         self.consumer_process = multiprocessing.Process(
             target=run_consumer_process, 
