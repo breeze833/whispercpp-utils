@@ -1,6 +1,7 @@
 # VAD STT Processor
 
-The STT program that
+The STT program that uses low complexity VAD detection and transcribe with whisper.cpp (assume native VAD is disabled).
+Its processing flow is:
 
 1. reads input speech stream
 2. creates fragments based on VAD 
