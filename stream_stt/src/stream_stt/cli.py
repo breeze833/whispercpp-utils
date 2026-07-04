@@ -10,10 +10,11 @@ def main():
     output_destination = os.environ.get("STREAM_OUTPUT", os.environ.get("STT_OUTPUT", "/tmp/hid_keyboard.sock"))
     stt_mode = os.environ.get("STT_MODE", os.environ.get("VAD_MODE", "webrtc")).lower()
     
+    # whisper.cpp needs larger context to correctly recognize the speech
     try:
-        chunk_duration_s = float(os.environ.get("CHUNK_DURATION_S", "3.0"))
+        chunk_duration_s = float(os.environ.get("CHUNK_DURATION_S", "15.0"))
     except ValueError:
-        chunk_duration_s = 3.0
+        chunk_duration_s = 15.0
 
     print("=" * 50)
     print(" Stream-STT Pipeline Initialization")

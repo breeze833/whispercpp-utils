@@ -20,7 +20,7 @@ sudo apt install python3-dev portaudio19-dev
 python -m venv .venv
 .venv/bin/pip install --upgrade pip setuptools
 .venv/bin/pip install -r requirements.txt
-.vnev/bin/pip install -e .
+.venv/bin/pip install -e .
 ```
 
 ## Use
@@ -57,7 +57,7 @@ If you would like to override the configuration, use environment variables:
   * `webrtc` (default): use client-side WebRTC VAD to isolate voice segments.
   * `native`: bypass client WebRTC VAD and chunk audio at regular intervals, letting the `whisper-server`'s native Silero VAD handle speech segment detection.
 * `CHUNK_DURATION_S` (only applicable when `STT_MODE=native`):
-  * The duration in seconds of each audio chunk sent to the server. Defaults to `3.0`.
+  * The duration in seconds of each audio chunk sent to the server. Defaults to `15.0`.
 
 ## Experimental Results
 
